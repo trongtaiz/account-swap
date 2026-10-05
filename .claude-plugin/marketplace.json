@@ -1,0 +1,12 @@
+{
+  "name": "account-swap",
+  "description": "Account Swap, a Claude Code mod for switching between saved Claude accounts.",
+  "owner": { "name": "trongtaiz", "url": "https://github.com/trongtaiz" },
+  "plugins": [
+    {
+      "name": "account-swap",
+      "source": "./",
+      "description": "Switch between saved Claude accounts from inside Claude Code, and auto-swap before the active one hits its rate limit."
+    }
+  ]
+}

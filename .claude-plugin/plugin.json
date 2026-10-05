@@ -1,0 +1,11 @@
+{
+  "name": "account-swap",
+  "displayName": "Account Swap",
+  "version": "0.1.0",
+  "description": "Switch between saved Claude accounts from inside Claude Code, and auto-swap before the active one hits its rate limit.",
+  "author": { "name": "trongtaiz", "url": "https://github.com/trongtaiz" },
+  "homepage": "https://github.com/trongtaiz/account-swap",
+  "repository": "https://github.com/trongtaiz/account-swap",
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}

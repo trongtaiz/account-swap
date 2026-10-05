@@ -3,7 +3,7 @@
 A Claude Code mod for switching between saved Claude accounts without leaving the session, with optional auto-swap before the active account hits its rate limit.
 
 - `/swap` opens a picker, like `/model`'s, listing your saved accounts and their last-seen usage.
-- A line under the prompt shows the account in use, e.g. `swap: work 42%`.
+- The hint line under the prompt lists your accounts with the one in use starred, e.g. `swap: *1 work 42%* · 2 personal 10%`. While a token overrides the login, a yellow `swap off (…)` row appears under it.
 - Auto-swap: when the active account reaches 90% of its 5-hour or weekly limit, the mod switches to the next saved account that isn't near its limit (at most once every 5 minutes).
 
 ## Install

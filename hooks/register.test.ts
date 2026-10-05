@@ -256,7 +256,7 @@ test('a token-only machine with no login file yet can still swap to a saved toke
   expect(w.activeEmail()).toBe('work@token.local')
 })
 
-test('a cyan label under the hint line says which account is in use', async ($, on) => {
+test('the account in use gets no row of its own: the hint list already stars it', async ($, on) => {
   const token = {
     email: 'sonnd@token.local',
     creds: 'CREDS-sonnd',
@@ -266,8 +266,8 @@ test('a cyan label under the hint line says which account is in use', async ($, 
   const w = world(on, { accounts: [pickerAccount('a@x.com'), token] })
   w.login('sonnd@token.local', 'CREDS-sonnd')
   await $.session.start({ cwd: 'D:/p', surface: 'terminal', isInteractive: true })
-  // a column: the engine's own line, still drawn by the engine, then the label
-  expect(await w.drawLine($)).toMatch(/"flexDirection":"column".*"type":"engine".*"color":"cyan".*"swap: sonnd 12%"/)
+  // only the engine's own line, drawn by the engine
+  expect(await w.drawLine($)).toBe(JSON.stringify({ type: 'engine', ref: 0 }))
 })
 
 test('under a session token the label says swap is off, in yellow', async ($, on) => {

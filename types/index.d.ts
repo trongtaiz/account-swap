@@ -3,7 +3,7 @@ export type Hint = string
 
 declare module 'claude-code' {
   interface PluginState {
-    // label: the one mode label on the prompt footer naming the account in use.
+    // label: the row under the hint line while a token overrides the login; '' draws nothing.
     'account-swap': { hint: Hint; label: Hint }
   }
 }

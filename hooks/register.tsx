@@ -83,17 +83,7 @@ async function refreshHint($: Engine, email: string | undefined, usage?: readonl
   const override = await overriddenBy($)
   const accounts = await loadAccounts($)
   await update($, hint, () => (override === undefined ? hintText(accounts, email, usage) : ''))
-  await update($, label, () => (override === undefined ? labelText(accounts, email, usage) : `swap off (${override})`))
-}
-
-// The label under the hint line: the account in use, a token account by its
-// name alone.
-function labelText(accounts: readonly Account[], active: string | undefined, usage?: readonly SessionRateLimit[]) {
-  const account = accounts.find(a => a.email === active)
-  if (account === undefined) return ''
-  const seen = usage ?? account.usage
-  const pct = seen?.length ? ` ${Math.round(Math.max(...seen.map(w => w.percentUsed)))}%` : ''
-  return `swap: ${account.email.replace(/@token\.local$/, '')}${pct}`
+  await update($, label, () => (override === undefined ? '' : `swap off (${override})`))
 }
 
 async function addLive($: Engine) {
@@ -330,23 +320,23 @@ export const register: Register = on => {
   })
 
   // The line under the prompt: the engine's hint line, which `next` hands back for
-  // the engine to keep drawing live, then the account in use on its own row in
-  // colour (the engine draws its node first wherever it sits, and refuses it under
-  // a Box that sets a width).
+  // the engine to keep drawing live, then, only while a token overrides the login,
+  // a yellow row saying swap is off (the engine draws its node first wherever it
+  // sits, and refuses it under a Box that sets a width).
   // The account list rides the hint's tail only while idle, so "esc to
   // interrupt" is never crowded out.
   on('ui.render', { component: 'PromptHint' }, async ($, e, next) => {
     const list = await read($, hint)
-    const active = await read($, label)
+    const off = await read($, label)
     const isIdle = !e.props.isDraft && !e.props.isWorking
     const engine = await next(list !== '' && isIdle ? { ...e, props: { ...e.props, tail: list } } : e)
-    if (active === '') return engine
+    if (off === '') return engine
     const { Box, Text } = $.ui.resolve(e)
     return (
       <Box flexDirection="column">
         {engine}
-        <Text color={active.startsWith('swap off') ? 'yellow' : 'cyan'} bold>
-          {active}
+        <Text color="yellow" bold>
+          {off}
         </Text>
       </Box>
     )
